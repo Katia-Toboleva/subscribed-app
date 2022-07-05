@@ -1,9 +1,9 @@
-import { createTamagui } from '@my/ui'
-import { createInterFont } from '@tamagui/font-inter'
-import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/theme-base'
+import { createTamagui } from '@my/ui';
+import { createInterFont } from '@tamagui/font-inter';
+import { shorthands } from '@tamagui/shorthands';
+import { themes, tokens } from '@tamagui/theme-base';
 
-import { animations } from './constants/animations'
+import { animations } from './constants/animations';
 
 const headingFont = createInterFont({
   size: {
@@ -32,15 +32,15 @@ const headingFont = createInterFont({
     14: -5,
     15: -6,
   },
-})
+});
 
 const bodyFont = createInterFont(
   {},
   {
     sizeSize: (size) => Math.round(size * 1.1),
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
-  }
-)
+  },
+);
 
 const config = createTamagui({
   animations,
@@ -70,12 +70,12 @@ const config = createTamagui({
     hoverNone: { hover: 'none' },
     pointerCoarse: { pointer: 'coarse' },
   },
-})
+});
 
 export type Conf = typeof config
 
 declare module '@my/ui' {
-  interface TamaguiCustomConfig extends Conf {}
+  type TamaguiCustomConfig = Conf
 }
 
-export default config
+export default config;

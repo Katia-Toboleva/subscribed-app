@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server';
 import typeDefs from './schema';
-import resolvers from './resolvers'
+import resolvers from './resolvers';
 
 const server = new ApolloServer({
   typeDefs,
@@ -8,8 +8,8 @@ const server = new ApolloServer({
   context() {
     return {} // models and db will be passed here
   }
-})
+});
 
 server.listen().then(({ url }) => {
   console.log(`Server is listening on ${url}`);
-})
+});
