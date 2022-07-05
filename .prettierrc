@@ -2,6 +2,12 @@
   "trailingComma": "es5",
   "semi": false,
   "singleQuote": true,
-  "arrowParens": "always",
+  "jsxBracketSameLine": false,
+  "useTabs": false,
+  "eslintIntegration": false,
+  "tslintIntegration": true,
+  "parser": "typescript",
+  "requireConfig": false,
+  "stylelintIntegration": false,
   "printWidth": 100
 }
