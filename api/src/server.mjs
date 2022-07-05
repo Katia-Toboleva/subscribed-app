@@ -1,13 +1,13 @@
 import { ApolloServer } from 'apollo-server';
-import typeDefs from './schema';
-import resolvers from './resolvers';
+import typeDefs from './schema.mjs';
+import resolvers from './resolvers.mjs';
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context() {
-    return {} // models and db will be passed here
-  }
+  // context() {
+  //   return { models, db }  // models and db will be passed here
+  // }
 });
 
 server.listen().then(({ url }) => {
