@@ -40,6 +40,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     'no-undef': 0,
     'react/react-in-jsx-scope': 0,
+    'import/order': 0,
     'padding-line-between-statements': [
       'error',
       {

@@ -10,5 +10,6 @@ export function Provider({ children, ...rest }: TamaguiProviderProps) {
         <Drawer.Provider>{children}</Drawer.Provider>
       </NavigationProvider>
     </Tamagui.Provider>
-  )
-};
+  );
+}
+
