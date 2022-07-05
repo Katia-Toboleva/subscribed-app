@@ -40,7 +40,72 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     'no-undef': 0,
     'react/react-in-jsx-scope': 0,
+    'padding-line-between-statements': [
+      'error',
+      {
+        blankLine: 'always',
+        prev: '*',
+        next: [
+          'multiline-block-like',
+          'multiline-expression',
+          'block',
+          'block-like',
+          'cjs-export',
+          'class',
+          'export',
+          'import',
+        ],
+      },
+      {
+        blankLine: 'always',
+        prev: [
+          'multiline-block-like',
+          'multiline-expression',
+          'block',
+          'block-like',
+          'cjs-export',
+          'class',
+          'export',
+          'import',
+        ],
+        next: '*',
+      },
+      {
+        blankLine: 'any',
+        prev: [
+          'export',
+          'import',
+        ],
+        next: [
+          'export',
+          'import',
+        ],
+      },
+    ],
   },
+  overrides: [
+    // {
+    //   // enable the rule specifically for TypeScript files
+    //   files: ['*.ts', '*.tsx'],
+    //   rules: {
+    //     '@typescript-eslint/explicit-function-return-type': ['error'],
+    //   },
+    // },
+    {
+      files: [
+        '**/*.test.ts',
+        '**/*.test.tsx',
+      ],
+      env: {
+        browser: true,
+        es2021: true,
+        jest: true,
+      },
+      rules: {
+        'react/jsx-props-no-spreading': 0,
+      },
+    },
+  ],
   globals: {
     TSX: true,
     JSX: true,
