@@ -1,7 +1,7 @@
-import Tamagui from '../tamagui.config'
-import { Drawer } from '@tamagui/drawer'
-import { NavigationProvider } from './navigation'
-import { TamaguiProviderProps } from '@my/ui'
+import Tamagui from '../tamagui.config';
+import { Drawer } from '@tamagui/drawer';
+import { NavigationProvider } from './navigation';
+import { TamaguiProviderProps } from '@my/ui';
 
 export function Provider({ children, ...rest }: TamaguiProviderProps) {
   return (
@@ -11,4 +11,4 @@ export function Provider({ children, ...rest }: TamaguiProviderProps) {
       </NavigationProvider>
     </Tamagui.Provider>
   )
-}
+};

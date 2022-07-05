@@ -42,6 +42,7 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
   },
   globals: {
+    TSX: true,
     JSX: true,
     URL: true,
     window: true,
