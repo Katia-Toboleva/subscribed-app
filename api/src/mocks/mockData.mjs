@@ -1,0 +1,27 @@
+export const mockSubscriptions = [
+  {
+    id: 435435345435,
+    logo: 'mylogo',
+    name: 'Am',
+    type: 'recurring',
+    startDate: '2022-07-11T20:00:27+00:00',
+    endDate: '2023-07-11T20:00:27+00:00',
+    frequency: 'weekly',
+    amount: 10.99,
+    url: 'www.ddd.ss',
+    notification: 'email',
+    totalPaid: 54.33,
+  },
+  {
+    id: 435435345436,
+    logo: 'somelogo',
+    name: 'Ne',
+    type: 'recurring',
+    startDate: '2022-07-05T20:00:27+00:00',
+    endDate: '2023-07-05T20:00:27+00:00',
+    frequency: 'weekly',
+    amount: 14.99,
+    url: 'www.nnn.ss',
+    notification: 'email',
+    totalPaid: 74.33,
+  }];

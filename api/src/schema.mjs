@@ -2,61 +2,61 @@ import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   type Subscription {
-    id: ID!,
-    logo: String,
-    name: String!,
-    type: SubscriptionType!,
-    startDate: String!,
-    endDate: String,
-    frequency: FrequencyType!,
-    amount: Float!,
-    url: String!,
-    notification: NotificationType!,
-    totalPaid: Float!,
+    id: ID!
+    logo: String
+    name: String!
+    type: SubscriptionType!
+    startDate: String!
+    endDate: String
+    frequency: FrequencyType!
+    amount: Float!
+    url: String!
+    notification: NotificationType!
+    totalPaid: Float!
   }
 
   type User {
-    id: ID!,
-    username: String!,
-    name: String,
-    surname: String!,
-    middleName: String,
-    title: TitleType,
-    email: String!,
-    phoneNumber: Float,
-    profileImage: String,
-    subscriptions: [Subscription]!,
+    id: ID!
+    username: String!
+    name: String
+    surname: String!
+    middleName: String
+    title: TitleType
+    email: String!
+    phoneNumber: Float
+    profileImage: String
+    subscriptions: [Subscription]!
   }
 
   enum TitleType {
-    mr,
-    ms,
-    miss,
-    mrs,
+    mr
+    ms
+    miss
+    mrs
   }
 
   enum SubscriptionType {
-    trial,
-    recurring,
+    trial
+    recurring
   }
 
   enum FrequencyType {
-    monthly,
-    weekly,
-    yearly,
+    monthly
+    weekly
+    yearly
   }
 
   enum NotificationType {
-    email,
-    popup,
-    none,
+    email
+    popup
+    none
   }
 
   enum FilterType {
-    all,
-    active,
-    trial,
-    old,
+    all
+    active
+    trial
+    old
   }
 
   type Query {
