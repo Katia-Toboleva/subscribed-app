@@ -5,7 +5,6 @@ const data = [...mockSubscriptions];
 const resolvers = {
   Query: {
     getSubscriptions() {
-      console.log(data, 'data');
       return data;
     },
   },
