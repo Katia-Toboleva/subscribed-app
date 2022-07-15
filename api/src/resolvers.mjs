@@ -1,7 +1,12 @@
+import { mockSubscriptions } from './mocks/mockData.mjs';
+
+const data = [...mockSubscriptions];
+
 const resolvers = {
   Query: {
-    getSubscriptions(_, db) {
-      return db;
+    getSubscriptions() {
+      console.log(data, 'data');
+      return data;
     },
   },
 };
