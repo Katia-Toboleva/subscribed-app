@@ -1,0 +1,27 @@
+export const mockSubscriptions = [
+  {
+    id: 435435345435,
+    logo: 'mylogo',
+    name: 'Amazon Video',
+    type: 'recurring',
+    startDate: '2022-07-11T20:00:27+00:00',
+    endDate: '2023-07-11T20:00:27+00:00',
+    frequency: 'weekly',
+    amount: 10.99,
+    url: 'www.am-video.ss',
+    notification: 'email',
+    totalPaid: 54.33,
+  },
+  {
+    id: 435435345436,
+    logo: 'somelogo',
+    name: 'Netflix',
+    type: 'recurring',
+    startDate: '2022-07-05T20:00:27+00:00',
+    endDate: '2023-07-05T20:00:27+00:00',
+    frequency: 'weekly',
+    amount: 14.99,
+    url: 'www.netflix.com',
+    notification: 'email',
+    totalPaid: 74.33,
+  }];
