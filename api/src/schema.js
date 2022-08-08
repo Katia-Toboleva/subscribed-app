@@ -7,34 +7,34 @@ const typeDefs = gql`
   scalar Currency
 
   enum TitleType {
-    mr
-    ms
-    miss
-    mrs
+    MR
+    MS
+    MISS
+    MRS
   }
 
   enum SubscriptionType {
-    trial
-    recurring
+    TRIAL
+    RECURRING
   }
 
   enum FrequencyType {
-    monthly
-    weekly
-    yearly
+    MONTHLY
+    WEEKLY
+    YEARLY
   }
 
   enum NotificationType {
-    email
-    popup
-    none
+    EMAIL
+    POPUP
+    NONE
   }
 
   enum FilterType {
-    all
-    active
-    trial
-    old
+    ALL
+    ACTIVE
+    TRIAL
+    OLD
   }
 
   type Subscription {
@@ -43,12 +43,14 @@ const typeDefs = gql`
     name: String!
     type: SubscriptionType!
     startDate: Timestamp!
+    endDate: Timestamp!
     frequency: FrequencyType!
     amount: NonNegativeInt!
     currency: Currency
     url: String!
     notification: NotificationType!
     totalPaid: NonNegativeInt!
+    subscriptionUser: User!
   }
 
   type User {
@@ -63,8 +65,13 @@ const typeDefs = gql`
     subscriptions: [Subscription]!
   }
 
+  input GetSubscriptionsInput {
+    filterType: FilterType,
+  }
+
   type Query {
-    getSubscriptions: [Subscription]!
+    getSubscriptions(input: GetSubscriptionsInput): [Subscription]!
+    getSubscriptionById(id: ID!): Subscription
   }
 `;
 
