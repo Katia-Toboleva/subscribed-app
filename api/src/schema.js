@@ -1,6 +1,11 @@
 import { gql } from 'apollo-server';
 
 const typeDefs = gql`
+  scalar NonNegativeInt
+  scalar Timestamp
+  scalar PhoneNumber
+  scalar Currency
+
   enum TitleType {
     mr
     ms
@@ -37,13 +42,13 @@ const typeDefs = gql`
     logo: String
     name: String!
     type: SubscriptionType!
-    startDate: String!
-    endDate: String
+    startDate: Timestamp!
     frequency: FrequencyType!
-    amount: Float!
+    amount: NonNegativeInt!
+    currency: Currency
     url: String!
     notification: NotificationType!
-    totalPaid: Float!
+    totalPaid: NonNegativeInt!
   }
 
   type User {
@@ -51,10 +56,9 @@ const typeDefs = gql`
     username: String!
     name: String
     surname: String!
-    middleName: String
     title: TitleType
     email: String!
-    phoneNumber: Float
+    phoneNumber: PhoneNumber
     profileImage: String
     subscriptions: [Subscription]!
   }

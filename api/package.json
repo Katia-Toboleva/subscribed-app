@@ -1,5 +1,6 @@
 {
   "name": "subscribed-api",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +11,7 @@
     "apollo-link-http": "^1.5.16",
     "apollo-server": "^2.9.6",
     "graphql": "^14.5.8",
+    "graphql-scalars": "^1.17.0",
     "graphql-tag": "^2.10.1",
     "json5": "^2.1.0"
   }
