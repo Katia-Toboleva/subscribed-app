@@ -1,0 +1,17 @@
+/node_modules
+.yarn/cache/*
+
+**/.expo/*
+
+# next.js
+**/.next/*
+/out/
+
+**/ui/dist/*
+# **/dist/ui/types/*
+
+!packages/ui
+packages/ui/*
+!packages/ui/src
+
+webpack.config.js

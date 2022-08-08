@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "server": "node src/server.mjs"
+    "server": "node src/server.js"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
