@@ -1,7 +1,9 @@
-import { mockSubscriptions } from './mocks/mockData.js';
+import { nanoid } from 'nanoid';
+import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
 
 const data = [...mockSubscriptions];
+const users = [...mockUsers];
 
 const now = Math.floor(Date.now() / 1000);
 
@@ -28,6 +30,18 @@ const resolvers = {
     },
     getSubscriptionById(_, { id }) {
       return data.find((item) => item.id === +id);
+    },
+    getUserById(_, { id }) {
+      return users.find((user) => user.id === +id);
+    },
+  },
+  Mutation: {
+    addSubscription(_, { input }) {
+      return {
+        ...input.subscription,
+        id: nanoid(),
+        createdAt: now,
+      };
     },
   },
 };

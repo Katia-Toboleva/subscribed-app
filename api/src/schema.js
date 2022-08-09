@@ -44,11 +44,12 @@ const typeDefs = gql`
     type: SubscriptionType!
     startDate: Timestamp!
     endDate: Timestamp!
+    createdAt: Timestamp!
     frequency: FrequencyType!
     amount: NonNegativeInt!
     currency: Currency
     url: String!
-    notification: NotificationType!
+    notification: NotificationType
     totalPaid: NonNegativeInt!
     subscriptionUser: User!
   }
@@ -69,9 +70,30 @@ const typeDefs = gql`
     filterType: FilterType,
   }
 
+  input SubscriptionInput {
+    logo: String,
+    name: String!,
+    type: SubscriptionType!,
+    startDate: Timestamp!,
+    endDate: Timestamp,
+    frequency: FrequencyType!,
+    amount: NonNegativeInt!,
+    url: String!,
+    notification: NotificationType!,
+  }
+
+  input AddSubscriptionInput {
+    subscription: SubscriptionInput,
+  }
+
   type Query {
     getSubscriptions(input: GetSubscriptionsInput): [Subscription]!
     getSubscriptionById(id: ID!): Subscription
+    getUserById(id: ID!): User
+  }
+
+  type Mutation {
+    addSubscription(input: AddSubscriptionInput!): Subscription!
   }
 `;
 
