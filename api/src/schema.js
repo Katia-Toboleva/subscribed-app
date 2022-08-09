@@ -72,17 +72,22 @@ const typeDefs = gql`
 
   input SubscriptionInput {
     logo: String,
-    name: String!,
-    type: SubscriptionType!,
-    startDate: Timestamp!,
+    name: String,
+    type: SubscriptionType,
+    startDate: Timestamp,
     endDate: Timestamp,
-    frequency: FrequencyType!,
-    amount: NonNegativeInt!,
-    url: String!,
-    notification: NotificationType!,
+    frequency: FrequencyType,
+    amount: NonNegativeInt,
+    url: String,
+    notification: NotificationType,
   }
 
   input AddSubscriptionInput {
+    subscription: SubscriptionInput,
+  }
+
+  input EditSubscriptionInput {
+    id: ID!
     subscription: SubscriptionInput,
   }
 
@@ -94,6 +99,7 @@ const typeDefs = gql`
 
   type Mutation {
     addSubscription(input: AddSubscriptionInput!): Subscription!
+    editSubscription(input: EditSubscriptionInput!): Subscription!
   }
 `;
 

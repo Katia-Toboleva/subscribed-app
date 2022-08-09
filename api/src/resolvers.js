@@ -43,6 +43,13 @@ const resolvers = {
         createdAt: now,
       };
     },
+    editSubscription(_, { input }) {
+      const subscription = data.find((item) => item.id === +input.id);
+      return {
+        ...subscription,
+        ...input.subscription,
+      };
+    },
   },
 };
 
