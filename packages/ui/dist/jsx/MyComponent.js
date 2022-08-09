@@ -6,3 +6,4 @@ const MyComponent = styled(YStack, {
 export {
   MyComponent
 };
+//# sourceMappingURL=MyComponent.js.map

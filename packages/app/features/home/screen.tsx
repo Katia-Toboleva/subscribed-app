@@ -1,15 +1,15 @@
-import { Anchor, Button, H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
-import { Drawer } from '@tamagui/drawer'
-import { ChevronDown, ChevronUp } from '@tamagui/feather-icons'
-import React, { useState } from 'react'
-import { useWindowDimensions } from 'react-native'
-import { useLink } from 'solito/link'
+import { Anchor, Button, H1, Paragraph, Separator, XStack, YStack } from '@my/ui';
+import { Drawer } from '@tamagui/drawer';
+import { ChevronDown, ChevronUp } from '@tamagui/feather-icons';
+import React, { useState } from 'react';
+import { useWindowDimensions } from 'react-native';
+import { useLink } from 'solito/link';
 
 export function HomeScreen() {
   const linkProps = useLink({
     href: '/user/nate',
-  })
-  
+  });
+
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
       <YStack space="$4" maw={600}>
@@ -29,12 +29,12 @@ export function HomeScreen() {
 
       <DrawerDemo />
     </YStack>
-  )
+  );
 }
 
 function DrawerDemo() {
-  const [show, setShow] = useState(false)
-  const dimensions = useWindowDimensions()
+  const [show, setShow] = useState(false);
+  const dimensions = useWindowDimensions();
   return (
     <>
       <Button
@@ -55,5 +55,5 @@ function DrawerDemo() {
         </Drawer.Frame>
       </Drawer>
     </>
-  )
+  );
 }
