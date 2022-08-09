@@ -34,6 +34,10 @@ const resolvers = {
     getUserById(_, { id }) {
       return users.find((user) => user.id === +id);
     },
+    login(_, { input }) {
+      const foundUser = users.find((u) => u.email === input.email);
+      return foundUser.password === input.password ? foundUser : undefined;
+    },
   },
   Mutation: {
     addSubscription(_, { input }) {

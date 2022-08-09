@@ -78,7 +78,8 @@ export const mockUsers = [
     surname: 'Smith',
     title: 'Mr',
     email: 'john-smith@mail.com',
-    phoneNumber: 44567899033,
+    password: 'IAmJohn10',
+    phoneNumber: '+44567899033',
     subscriptions: mockSubscriptions,
   },
 ];

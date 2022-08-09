@@ -61,6 +61,7 @@ const typeDefs = gql`
     surname: String!
     title: TitleType
     email: String!
+    password: String!
     phoneNumber: PhoneNumber
     profileImage: String
     subscriptions: [Subscription]!
@@ -95,10 +96,16 @@ const typeDefs = gql`
     id: ID!
   }
 
+  input LoginWithEmailInput {
+    email: String!,
+    password: String!,
+  }
+
   type Query {
     getSubscriptions(input: GetSubscriptionsInput): [Subscription]!
     getSubscriptionById(id: ID!): Subscription
     getUserById(id: ID!): User
+    login(input: LoginWithEmailInput): User
   }
 
   type Mutation {
