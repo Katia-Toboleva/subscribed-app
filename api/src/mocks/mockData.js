@@ -12,6 +12,7 @@ export const mockSubscriptions = [
     url: 'www.am-video.com',
     notification: 'NONE',
     totalPaid: 5433,
+    user: 123,
   },
   {
     id: 435435345436,
@@ -26,6 +27,7 @@ export const mockSubscriptions = [
     url: 'www.am-video.com',
     notification: 'EMAIL',
     totalPaid: 5433,
+    user: 123,
   },
   {
     id: 435435345437,
@@ -40,6 +42,7 @@ export const mockSubscriptions = [
     url: 'www.am-video.com',
     notification: 'EMAIL',
     totalPaid: 5433,
+    user: 123,
   },
   {
     id: 435435345438,
@@ -54,6 +57,7 @@ export const mockSubscriptions = [
     url: 'www.am-video.com',
     notification: 'EMAIL',
     totalPaid: 5433,
+    user: 123,
   },
   {
     id: 435435345439,
@@ -68,6 +72,7 @@ export const mockSubscriptions = [
     url: 'www.netflix.com',
     notification: 'EMAIL',
     totalPaid: 74.33,
+    user: 456,
   }];
 
 export const mockUsers = [
@@ -77,9 +82,20 @@ export const mockUsers = [
     name: 'John',
     surname: 'Smith',
     title: 'Mr',
-    EMAIL: 'john-smith@mail.com',
+    email: 'john-smith@mail.com',
     password: 'IAmJohn10',
     phoneNumber: '+44567899033',
+    subscriptions: mockSubscriptions,
+  },
+  {
+    id: 456,
+    username: 'ana-thompson',
+    name: 'Ana',
+    surname: 'Thompson',
+    title: 'Mrs',
+    email: 'ana-thompson@mail.com',
+    password: 'IAmAna10',
+    phoneNumber: '+44567899099',
     subscriptions: mockSubscriptions,
   },
 ];

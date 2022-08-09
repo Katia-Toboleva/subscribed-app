@@ -51,7 +51,7 @@ const typeDefs = gql`
     url: String!
     notification: NotificationType
     totalPaid: NonNegativeInt!
-    subscriptionUser: User!
+    user: User!
   }
 
   type User {
@@ -104,6 +104,7 @@ const typeDefs = gql`
   type Query {
     getSubscriptions(input: GetSubscriptionsInput): [Subscription]!
     getSubscriptionById(id: ID!): Subscription
+    getUsers: [User]
     getUserById(id: ID!): User
     login(input: LoginWithEmailInput): User
   }

@@ -31,6 +31,9 @@ const resolvers = {
     getSubscriptionById(_, { id }) {
       return data.find((item) => item.id === +id);
     },
+    getUsers() {
+      return users;
+    },
     getUserById(_, { id }) {
       return users.find((user) => user.id === +id);
     },
@@ -56,6 +59,16 @@ const resolvers = {
     },
     deleteSubscription(_, { input }) {
       return data.filter((item) => item.id !== +input.id);
+    },
+  },
+  User: {
+    subscriptions(user) {
+      return data.filter((item) => item.user === +user.id);
+    },
+  },
+  Subscription: {
+    user(subscription) {
+      return users.find((item) => item.id === +subscription.user);
     },
   },
 };
