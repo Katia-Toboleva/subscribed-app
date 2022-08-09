@@ -50,6 +50,9 @@ const resolvers = {
         ...input.subscription,
       };
     },
+    deleteSubscription(_, { input }) {
+      return data.filter((item) => item.id !== +input.id);
+    },
   },
 };
 

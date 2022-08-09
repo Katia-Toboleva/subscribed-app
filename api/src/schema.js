@@ -91,6 +91,10 @@ const typeDefs = gql`
     subscription: SubscriptionInput,
   }
 
+  input DeleteSubscriptionInput {
+    id: ID!
+  }
+
   type Query {
     getSubscriptions(input: GetSubscriptionsInput): [Subscription]!
     getSubscriptionById(id: ID!): Subscription
@@ -100,6 +104,7 @@ const typeDefs = gql`
   type Mutation {
     addSubscription(input: AddSubscriptionInput!): Subscription!
     editSubscription(input: EditSubscriptionInput!): Subscription!
+    deleteSubscription(input: DeleteSubscriptionInput!): [Subscription]!
   }
 `;
 
