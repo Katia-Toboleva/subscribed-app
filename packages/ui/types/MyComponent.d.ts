@@ -22,7 +22,7 @@ export declare const MyComponent: import("tamagui").TamaguiComponent<(Omit<impor
     readonly elevation?: import("tamagui").SizeTokens | undefined;
 }, string | number> & {
     [x: string]: undefined;
-}>>), any, import("tamagui").StackPropsBase, {
+}>>), import("tamagui").TamaguiElement, import("tamagui").StackPropsBase, {
     readonly fullscreen?: boolean | undefined;
     readonly elevation?: import("tamagui").SizeTokens | undefined;
 } & ({} | {

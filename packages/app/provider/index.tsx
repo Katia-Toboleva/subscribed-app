@@ -1,15 +1,11 @@
-import Tamagui from '../tamagui.config';
-import { Drawer } from '@tamagui/drawer';
-import { NavigationProvider } from './navigation';
-import { TamaguiProviderProps } from '@my/ui';
+import config from '../tamagui.config'
+import { NavigationProvider } from './navigation'
+import { TamaguiProvider, TamaguiProviderProps } from '@my/ui'
 
-export function Provider({ children, ...rest }: TamaguiProviderProps) {
+export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
   return (
-    <Tamagui.Provider disableInjectCSS defaultTheme="light" {...rest}>
-      <NavigationProvider>
-        <Drawer.Provider>{children}</Drawer.Provider>
-      </NavigationProvider>
-    </Tamagui.Provider>
-  );
+    <TamaguiProvider config={config} disableInjectCSS defaultTheme="light" {...rest}>
+      <NavigationProvider>{children}</NavigationProvider>
+    </TamaguiProvider>
+  )
 }
-

@@ -23,7 +23,7 @@ module.exports = __toCommonJS(MyComponent_exports);
 var import_tamagui = require("tamagui");
 const MyComponent = (0, import_tamagui.styled)(import_tamagui.YStack, {
   name: "MyComponent",
-  backgroundColor: "red"
+  bc: "red"
 });
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
