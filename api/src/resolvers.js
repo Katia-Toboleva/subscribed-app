@@ -31,8 +31,15 @@ const resolvers = {
     getSubscriptionById(_, { id }) {
       return data.find((item) => item.id === +id);
     },
+    getUsers() {
+      return users;
+    },
     getUserById(_, { id }) {
       return users.find((user) => user.id === +id);
+    },
+    login(_, { input }) {
+      const foundUser = users.find((u) => u.email === input.email);
+      return foundUser.password === input.password ? foundUser : undefined;
     },
   },
   Mutation: {
@@ -42,6 +49,26 @@ const resolvers = {
         id: nanoid(),
         createdAt: now,
       };
+    },
+    editSubscription(_, { input }) {
+      const subscription = data.find((item) => item.id === +input.id);
+      return {
+        ...subscription,
+        ...input.subscription,
+      };
+    },
+    deleteSubscription(_, { input }) {
+      return data.filter((item) => item.id !== +input.id);
+    },
+  },
+  User: {
+    subscriptions(user) {
+      return data.filter((item) => item.user === +user.id);
+    },
+  },
+  Subscription: {
+    user(subscription) {
+      return users.find((item) => item.id === +subscription.user);
     },
   },
 };
