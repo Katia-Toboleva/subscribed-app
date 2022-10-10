@@ -69,7 +69,7 @@ const typeDefs = gql`
 
   type AuthUser {
     token: String!
-    user: User
+    user: User!
   }
 
   input SignupInput {

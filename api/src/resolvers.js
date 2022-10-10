@@ -61,28 +61,30 @@ const resolvers = {
     deleteSubscription(_, { input }) {
       return data.filter((item) => item.id !== +input.id);
     },
-    signup(_, { input }, { createToken }) {
-      const isExistingUser = users.find(mockUser => mockUser.email === input.email);
+    signup(_, { input: { email, password } }, { createToken }) {
+      const isExistingUser = users.find(mockUser => mockUser.email === email);
 
       if (isExistingUser) {
         throw new Error('User already exists');
       }
 
-      const user = ({...input, id: nanoid()});
+      const username = email.substring(0, email.indexOf('@'));
+
+      const user = ({ email, password, id: nanoid(), username });
       const token = createToken(user);
 
       return { token, user };
     },
     login(_, { input }, { createToken }) {
-      const existingUser = users.find(mockUser => mockUser.email === input.email && mockUser.password === input.password);
+      const user = users.find(mockUser => mockUser.email === input.email && mockUser.password === input.password);
 
-      if (!existingUser) {
+      if (!user) {
         throw new Error('Incorrect login details');
       }
 
-      const token = createToken(existingUser);
+      const token = createToken(user);
       
-      return { token, existingUser };
+      return { token, user };
     }
   },
   User: {
