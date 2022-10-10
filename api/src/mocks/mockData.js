@@ -86,6 +86,7 @@ export const mockUsers = [
     password: 'IAmJohn10',
     phoneNumber: '+44567899033',
     subscriptions: mockSubscriptions,
+    role: 'MEMBER',
   },
   {
     id: 456,
@@ -97,5 +98,6 @@ export const mockUsers = [
     password: 'IAmAna10',
     phoneNumber: '+44567899099',
     subscriptions: mockSubscriptions,
+    role: 'ADMIN',
   },
 ];

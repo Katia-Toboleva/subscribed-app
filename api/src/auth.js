@@ -28,4 +28,18 @@ const authenticated = next => (root, args, context, info) => {
   return next(root, args, context, info);
 };
 
-export { createToken, getUserFromToken, authenticated };
+/**
+ * checks if the user on the context has the specified role.
+ * continues to the next resolver if true
+ * @param {String} role enum role to check for
+ * @param {Function} next next resolver function to run
+ */
+ const authorized = (role, next) => (root, args, context, info) => {
+  if (context.user.role !== role ) {
+    throw new Error(`incorrect privilegies, must be ${role} role`);
+  }
+
+  return next(root, args, context, info);
+}
+
+export { createToken, getUserFromToken, authenticated, authorized };

@@ -37,6 +37,12 @@ const typeDefs = gql`
     OLD
   }
 
+  enum Role {
+    ADMIN
+    MEMBER
+    GUEST
+  }
+
   type Subscription {
     id: ID!
     logo: String
@@ -65,6 +71,7 @@ const typeDefs = gql`
     phoneNumber: PhoneNumber
     profileImage: String
     subscriptions: [Subscription]
+    role: Role!
   }
 
   type AuthUser {
@@ -75,11 +82,16 @@ const typeDefs = gql`
   input SignupInput {
     email: String!
     password: String!
+    role: Role!
   }
 
   input LoginInput {
     email: String!
     password: String!
+  }
+
+  input GetUsersInput {
+    role: Role!
   }
 
   input GetSubscriptionsInput {
@@ -119,7 +131,7 @@ const typeDefs = gql`
   type Query {
     getSubscriptions(input: GetSubscriptionsInput): [Subscription]!
     getSubscriptionById(id: ID!): Subscription
-    getUsers: [User]
+    getUsers(input: GetUsersInput): [User]
     getUserById(id: ID!): User
     login(input: LoginWithEmailInput): User
   }
