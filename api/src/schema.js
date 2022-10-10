@@ -56,15 +56,30 @@ const typeDefs = gql`
 
   type User {
     id: ID!
-    username: String!
+    username: String
     name: String
-    surname: String!
+    surname: String
     title: TitleType
     email: String!
     password: String!
     phoneNumber: PhoneNumber
     profileImage: String
-    subscriptions: [Subscription]!
+    subscriptions: [Subscription]
+  }
+
+  type AuthUser {
+    token: String!
+    user: User
+  }
+
+  input SignupInput {
+    email: String!
+    password: String!
+  }
+
+  input LoginInput {
+    email: String!
+    password: String!
   }
 
   input GetSubscriptionsInput {
@@ -113,6 +128,8 @@ const typeDefs = gql`
     addSubscription(input: AddSubscriptionInput!): Subscription!
     editSubscription(input: EditSubscriptionInput!): Subscription!
     deleteSubscription(input: DeleteSubscriptionInput!): [Subscription]!
+    signup(input: SignupInput!): AuthUser!
+    login(input: LoginInput!): AuthUser!
   }
 `;
 

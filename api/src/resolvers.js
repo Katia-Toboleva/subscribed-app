@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
+import { authenticated } from './auth.js';
 
 const data = [...mockSubscriptions];
 const users = [...mockUsers];
@@ -31,9 +32,9 @@ const resolvers = {
     getSubscriptionById(_, { id }) {
       return data.find((item) => item.id === +id);
     },
-    getUsers() {
+    getUsers: authenticated(() => {
       return users;
-    },
+    }),
     getUserById(_, { id }) {
       return users.find((user) => user.id === +id);
     },
@@ -60,6 +61,29 @@ const resolvers = {
     deleteSubscription(_, { input }) {
       return data.filter((item) => item.id !== +input.id);
     },
+    signup(_, { input }, { createToken }) {
+      const isExistingUser = users.find(mockUser => mockUser.email === input.email);
+
+      if (isExistingUser) {
+        throw new Error('User already exists');
+      }
+
+      const user = ({...input, id: nanoid()});
+      const token = createToken(user);
+
+      return { token, user };
+    },
+    login(_, { input }, { createToken }) {
+      const existingUser = users.find(mockUser => mockUser.email === input.email && mockUser.password === input.password);
+
+      if (!existingUser) {
+        throw new Error('Incorrect login details');
+      }
+
+      const token = createToken(existingUser);
+      
+      return { token, existingUser };
+    }
   },
   User: {
     subscriptions(user) {
