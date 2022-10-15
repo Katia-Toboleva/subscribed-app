@@ -3,7 +3,7 @@ import { mockUsers } from './mocks/mockData.js';
 
 const secret = 'mysecret';
 
-const createToken = ({ id }) => jwt.sign({ id }, secret);
+const createToken = ({ id, role }) => jwt.sign({ id, role }, secret);
 
 const getUserFromToken = token => {
   try {

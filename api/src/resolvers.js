@@ -34,7 +34,7 @@ const resolvers = {
     }),
     getUsers: authenticated(authorized('ADMIN', (_, { input }) => {
       return users;
-    })),
+    })), // only available for ADMIN
     getUserById: authenticated((_, { id }) => {
       return users.find((user) => user.id === +id);
     }),
