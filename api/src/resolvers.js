@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { AuthenticationError } from 'apollo-server';
 import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
 import { authenticated, authorized } from './auth.js';
@@ -75,7 +76,7 @@ const resolvers = {
       const user = users.find(mockUser => mockUser.email === input.email && mockUser.password === input.password);
 
       if (!user) {
-        throw new Error('Incorrect login details');
+        throw new AuthenticationError('Incorrect login details');
       }
 
       const token = createToken(user);
