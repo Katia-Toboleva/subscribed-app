@@ -4,7 +4,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "server": "nodemon src/server.js"
+    "server": "nodemon src/server.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:studio": "npx prisma studio",
+    "prisma:csv": "ts-node-esm -T scripts/export-report.ts"
+
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
@@ -17,6 +21,7 @@
     "nanoid": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "prisma": "^4.5.0"
   }
 }

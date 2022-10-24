@@ -3135,6 +3135,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/engines@npm:4.5.0":
+  version: 4.5.0
+  resolution: "@prisma/engines@npm:4.5.0"
+  checksum: d34ba4ceee67809b4a6d756763b118b3fbf273ab35378e568495248c7c62633c4cccca1e6b94411d5312a272f268f3dec5e8ae0a3e4177ad5f593f38daca7c58
+  languageName: node
+  linkType: hard
+
 "@protobufjs/aspromise@npm:^1.1.1, @protobufjs/aspromise@npm:^1.1.2":
   version: 1.1.2
   resolution: "@protobufjs/aspromise@npm:1.1.2"
@@ -16617,6 +16624,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prisma@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "prisma@npm:4.5.0"
+  dependencies:
+    "@prisma/engines": 4.5.0
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: 83a6d28475a31e8d69b355f949c0484b6d64324c45c452c57bf9ed50f85129b8df22fecb671c00a28f0cb80360a3f691888c463548949e94078f7f9be4bd0c79
+  languageName: node
+  linkType: hard
+
 "process-nextick-args@npm:~2.0.0":
   version: 2.0.1
   resolution: "process-nextick-args@npm:2.0.1"
@@ -19042,6 +19061,7 @@ __metadata:
     json5: ^2.1.0
     nanoid: ^4.0.0
     nodemon: ^2.0.20
+    prisma: ^4.5.0
   languageName: unknown
   linkType: soft
 
