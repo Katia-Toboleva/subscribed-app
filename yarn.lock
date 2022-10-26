@@ -3135,6 +3135,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "@prisma/client@npm:4.5.0"
+  dependencies:
+    "@prisma/engines-version": 4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: 1e6b76c104f17e6fc78c537d17879a17dcde8443cd6d084530068453c4f2620050c273f5683d7cdb5012a0d5b4854907fe993fcf5752fb11f2bcca7221d34e59
+  languageName: node
+  linkType: hard
+
+"@prisma/engines-version@npm:4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452":
+  version: 4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452
+  resolution: "@prisma/engines-version@npm:4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452"
+  checksum: 619626ff5dc16a292065a5318f76653f589bf170a769edbabb07d62b4a589ab0eba287a00faf3e31eaf3280c99662e210376a61a68f91b7690a955fd43f346eb
+  languageName: node
+  linkType: hard
+
 "@prisma/engines@npm:4.5.0":
   version: 4.5.0
   resolution: "@prisma/engines@npm:4.5.0"
@@ -19053,6 +19074,7 @@ __metadata:
   resolution: "subscribed-api@workspace:api"
   dependencies:
     "@apollo/react-hooks": ^3.1.2
+    "@prisma/client": ^4.5.0
     apollo-link-http: ^1.5.16
     apollo-server: ^2.9.6
     graphql: ^14.5.8
