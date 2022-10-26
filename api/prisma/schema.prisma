@@ -8,13 +8,59 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   username      String
-  name          String
+  name          String          @db.VarChar(255)
   surname       String
   title         String
-  email         String   @unique
+  email         String          @unique @db.VarChar(255)
   password      String
   phoneNumber   Int
   profileImage  String
+  subscriptions Subscription[]  
+  role          Role            @default(MEMBER)
+
+  @@map("user")
 }
+
+  model Subscription {
+    id               Int                @id @default(autoincrement())
+    logo             String?
+    name             String
+    type             SubscriptionType   @default(RECURRING)
+    startDate        DateTime
+    endDate          DateTime?
+    createdAt        DateTime         @default(now())
+    frequency        FrequencyType      @default(MONTHLY)
+    amount           Int
+    currency         String
+    url              String
+    notification     NotificationType   @default(NONE)
+    totalPaid        Int
+    user             User               @relation(fields: [id], references: [id])
+
+    @@map("subscription")
+  }
+
+  enum Role {
+    ADMIN
+    MEMBER
+    GUEST
+  }
+
+  enum FrequencyType {
+    MONTHLY
+    WEEKLY
+    YEARLY
+  }
+
+  enum NotificationType {
+    EMAIL
+    POPUP
+    NONE
+  }
+
+  enum SubscriptionType {
+    TRIAL
+    RECURRING
+  }

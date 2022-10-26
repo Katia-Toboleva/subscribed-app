@@ -4,7 +4,7 @@ import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
 import { authenticated, authorized } from './auth.js';
 
-const data = [...mockSubscriptions];
+const subscriptions = [...mockSubscriptions];
 const users = [...mockUsers];
 
 const now = Math.floor(Date.now() / 1000);
@@ -15,48 +15,50 @@ const resolvers = {
   PhoneNumber: PhoneNumberResolver,
   Currency: CurrencyResolver,
   Query: {
-    getSubscriptions: authenticated((_, { input }) => {
+    getSubscriptions: authenticated(async (_, { input }, { prisma }) => {
       if (input.filterType === 'ACTIVE') {
-        return data.filter((item) => item.type !== 'trial' && (!item?.endDate || item?.endDate > now));
+        return subscriptions.filter((item) => item.type !== 'trial' && (!item?.endDate || item?.endDate > now));
       }
 
       if (input.filterType === 'TRIAL') {
-        return data.filter((item) => item.type === 'trial' && (!item?.endDate || item?.endDate > now));
+        return subscriptions.filter((item) => item.type === 'trial' && (!item?.endDate || item?.endDate > now));
       }
 
       if (input.filterType === 'OLD') {
-        return data.filter((item) => !!item?.endDate && item?.endDate < now);
+        return subscriptions.filter((item) => !!item?.endDate && item?.endDate < now);
       }
 
-      return data;
+      return prisma.subscription.findMany();
     }),
     getSubscriptionById: authenticated((_, { id }) => {
-      return data.find((item) => item.id === +id);
+      return subscriptions.find((item) => item.id === +id);
     }),
-    getUsers: authenticated(authorized('ADMIN', (_, { input }) => {
-      return users;
+    getUsers: authenticated(authorized('ADMIN', (_, { input }, { prisma }) => {
+      return prisma.user.findMany();
     })), // only available for ADMIN
     getUserById: authenticated((_, { id }) => {
       return users.find((user) => user.id === +id);
     }),
   },
   Mutation: {
-    addSubscription: authenticated((_, { input }) => {
-      return {
-        ...input.subscription,
-        id: nanoid(),
-        createdAt: now,
-      };
+    addSubscription: authenticated((_, { input }, { prisma }) => {
+      return prisma.subscription.create({
+        data: {
+          ...input.subscription,
+          id: nanoid(),
+          createdAt: now,
+        }
+      });
     }),
     editSubscription: authenticated((_, { input }) => {
-      const subscription = data.find((item) => item.id === +input.id);
+      const subscription = subscriptions.find((item) => item.id === +input.id);
       return {
         ...subscription,
         ...input.subscription,
       };
     }),
     deleteSubscription: authenticated((_, { input }) => {
-      return data.filter((item) => item.id !== +input.id);
+      return subscriptions.filter((item) => item.id !== +input.id);
     }),
     signup(_, { input: { email, password, role = 'MEMBER' } }, { createToken }) {
       const isExistingUser = users.find(mockUser => mockUser.email === email);
@@ -86,7 +88,7 @@ const resolvers = {
   },
   User: {
     subscriptions(user) {
-      return data.filter((item) => item.user === +user.id);
+      return subscriptions.filter((item) => item.user === +user.id);
     },
   },
   Subscription: {

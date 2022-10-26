@@ -108,6 +108,7 @@ const typeDefs = gql`
     amount: NonNegativeInt,
     url: String,
     notification: NotificationType,
+    totalPaid: NonNegativeInt
   }
 
   input AddSubscriptionInput {
