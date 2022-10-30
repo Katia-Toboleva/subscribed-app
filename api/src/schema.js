@@ -67,6 +67,7 @@ const typeDefs = gql`
     surname: String
     title: TitleType
     email: String!
+    password: String!
     phoneNumber: PhoneNumber
     profileImage: String
     subscriptions: [Subscription]

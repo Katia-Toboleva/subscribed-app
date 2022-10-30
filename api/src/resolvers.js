@@ -83,10 +83,14 @@ const resolvers = {
 
       return { token, user };
     },
-    login(_, { input }, { createToken }) {
-      const user = users.find(mockUser => mockUser.email === input.email && mockUser.password === input.password);
+    async login(_, { input: { email, password }}, { createToken, prisma }) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        }
+      })
 
-      if (!user) {
+      if (!user || (user && user.password !== password)) {
         throw new AuthenticationError('Incorrect login details');
       }
 
