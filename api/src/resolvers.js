@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { AuthenticationError } from 'apollo-server';
 import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
@@ -15,20 +14,24 @@ const resolvers = {
   PhoneNumber: PhoneNumberResolver,
   Currency: CurrencyResolver,
   Query: {
-    getSubscriptions: authenticated(async (_, { input }, { prisma }) => {
-      if (input.filterType === 'ACTIVE') {
+    getSubscriptions: authenticated(async (_, { input: { filterType, id } }, { prisma }) => {
+      if (filterType === 'ACTIVE') {
         return subscriptions.filter((item) => item.type !== 'trial' && (!item?.endDate || item?.endDate > now));
       }
 
-      if (input.filterType === 'TRIAL') {
+      if (filterType === 'TRIAL') {
         return subscriptions.filter((item) => item.type === 'trial' && (!item?.endDate || item?.endDate > now));
       }
 
-      if (input.filterType === 'OLD') {
+      if (filterType === 'OLD') {
         return subscriptions.filter((item) => !!item?.endDate && item?.endDate < now);
       }
 
-      return prisma.subscription.findMany();
+      return prisma.subscription.findMany({
+        where: {
+          userId: id,
+        },
+      });
     }),
     getSubscriptionById: authenticated((_, { id }) => {
       return subscriptions.find((item) => item.id === +id);
@@ -45,9 +48,8 @@ const resolvers = {
       return prisma.subscription.create({
         data: {
           ...input.subscription,
-          startDate: (new Date(input.subscription.startDate)).toISOString(),
-          createdAt: (new Date(input.subscription.startDate)).toISOString(),
-          currency: 'GBP',
+          startDate: new Date(input.subscription.startDate).toISOString(),
+          createdAt: new Date().toISOString(),
         }
       });
     }),
@@ -62,8 +64,11 @@ const resolvers = {
       return subscriptions.filter((item) => item.id !== +input.id);
     }),
     async signup(_, { input: { email, password } }, { createToken, prisma }) {
-      const allUsers = await prisma.user.findMany();
-      const isExistingUser = allUsers.find(user => user.email === email);
+      const isExistingUser = await prisma.user.findUnique({
+        where: {
+          email,
+        }
+      });
 
       if (isExistingUser) {
         throw new Error('User already exists');
