@@ -10,13 +10,13 @@ datasource db {
 model User {
   id            Int             @id @default(autoincrement())
   username      String
-  name          String          @db.VarChar(255)
-  surname       String
-  title         String
+  name          String?          @db.VarChar(255)
+  surname       String?
+  title         String?
   email         String          @unique @db.VarChar(255)
   password      String
-  phoneNumber   Int
-  profileImage  String
+  phoneNumber   Int?
+  profileImage  String?
   subscriptions Subscription[]  
   role          Role            @default(MEMBER)
 
@@ -37,7 +37,8 @@ model User {
     url              String
     notification     NotificationType   @default(NONE)
     totalPaid        Int
-    user             User               @relation(fields: [id], references: [id])
+    user             User               @relation(fields: [userId], references: [id])
+    userId           Int
 
     @@map("subscription")
   }

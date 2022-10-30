@@ -7,7 +7,7 @@ import { authenticated, authorized } from './auth.js';
 const subscriptions = [...mockSubscriptions];
 const users = [...mockUsers];
 
-const now = Math.floor(Date.now() / 1000);
+const now = Date.now();
 
 const resolvers = {
   NonNegativeInt: NonNegativeIntResolver,
@@ -45,8 +45,9 @@ const resolvers = {
       return prisma.subscription.create({
         data: {
           ...input.subscription,
-          id: nanoid(),
-          createdAt: now,
+          startDate: (new Date(input.subscription.startDate)).toISOString(),
+          createdAt: (new Date(input.subscription.startDate)).toISOString(),
+          currency: 'GBP',
         }
       });
     }),
@@ -60,8 +61,9 @@ const resolvers = {
     deleteSubscription: authenticated((_, { input }) => {
       return subscriptions.filter((item) => item.id !== +input.id);
     }),
-    signup(_, { input: { email, password, role = 'MEMBER' } }, { createToken }) {
-      const isExistingUser = users.find(mockUser => mockUser.email === email);
+    async signup(_, { input: { email, password } }, { createToken, prisma }) {
+      const allUsers = await prisma.user.findMany();
+      const isExistingUser = allUsers.find(user => user.email === email);
 
       if (isExistingUser) {
         throw new Error('User already exists');
@@ -69,7 +71,14 @@ const resolvers = {
 
       const username = email.substring(0, email.indexOf('@'));
 
-      const user = ({ email, password, id: nanoid(), username, role });
+      const user = prisma.user.create({
+        data: {
+          email,
+          username,
+          role: 'GUEST',
+          password,
+        },
+      });
       const token = createToken(user);
 
       return { token, user };
@@ -84,7 +93,7 @@ const resolvers = {
       const token = createToken(user);
       
       return { token, user };
-    }
+    },
   },
   User: {
     subscriptions(user) {

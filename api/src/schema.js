@@ -67,7 +67,6 @@ const typeDefs = gql`
     surname: String
     title: TitleType
     email: String!
-    password: String!
     phoneNumber: PhoneNumber
     profileImage: String
     subscriptions: [Subscription]
@@ -82,7 +81,6 @@ const typeDefs = gql`
   input SignupInput {
     email: String!
     password: String!
-    role: Role
   }
 
   input LoginInput {
@@ -99,25 +97,25 @@ const typeDefs = gql`
   }
 
   input SubscriptionInput {
-    logo: String,
-    name: String,
-    type: SubscriptionType,
-    startDate: Timestamp,
-    endDate: Timestamp,
-    frequency: FrequencyType,
-    amount: NonNegativeInt,
-    url: String,
-    notification: NotificationType,
+    logo: String
+    name: String
+    type: SubscriptionType
+    startDate: Timestamp
+    endDate: Timestamp
+    frequency: FrequencyType
+    amount: NonNegativeInt
+    url: String
+    notification: NotificationType
     totalPaid: NonNegativeInt
   }
 
   input AddSubscriptionInput {
-    subscription: SubscriptionInput,
+    subscription: SubscriptionInput
   }
 
   input EditSubscriptionInput {
     id: ID!
-    subscription: SubscriptionInput,
+    subscription: SubscriptionInput
   }
 
   input DeleteSubscriptionInput {
@@ -125,8 +123,8 @@ const typeDefs = gql`
   }
 
   input LoginWithEmailInput {
-    email: String!,
-    password: String!,
+    email: String!
+    password: String!
   }
 
   type Query {
