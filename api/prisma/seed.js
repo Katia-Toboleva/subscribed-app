@@ -18,6 +18,7 @@ const data = Array.from({ length: 10 }).map(() => ({
 async function main() {
   await prisma.user.createMany({
     data,
+    skipDuplicates: true,
   });
 };
 
