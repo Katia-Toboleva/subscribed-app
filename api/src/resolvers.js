@@ -1,13 +1,12 @@
-import { nanoid } from 'nanoid';
 import { AuthenticationError } from 'apollo-server';
 import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
 import { authenticated, authorized } from './auth.js';
 
-const data = [...mockSubscriptions];
+const subscriptions = [...mockSubscriptions];
 const users = [...mockUsers];
 
-const now = Math.floor(Date.now() / 1000);
+const now = Date.now();
 
 const resolvers = {
   NonNegativeInt: NonNegativeIntResolver,
@@ -15,51 +14,61 @@ const resolvers = {
   PhoneNumber: PhoneNumberResolver,
   Currency: CurrencyResolver,
   Query: {
-    getSubscriptions: authenticated((_, { input }) => {
-      if (input.filterType === 'ACTIVE') {
-        return data.filter((item) => item.type !== 'trial' && (!item?.endDate || item?.endDate > now));
+    getSubscriptions: authenticated(async (_, { input: { filterType, id } }, { prisma }) => {
+      if (filterType === 'ACTIVE') {
+        return subscriptions.filter((item) => item.type !== 'trial' && (!item?.endDate || item?.endDate > now));
       }
 
-      if (input.filterType === 'TRIAL') {
-        return data.filter((item) => item.type === 'trial' && (!item?.endDate || item?.endDate > now));
+      if (filterType === 'TRIAL') {
+        return subscriptions.filter((item) => item.type === 'trial' && (!item?.endDate || item?.endDate > now));
       }
 
-      if (input.filterType === 'OLD') {
-        return data.filter((item) => !!item?.endDate && item?.endDate < now);
+      if (filterType === 'OLD') {
+        return subscriptions.filter((item) => !!item?.endDate && item?.endDate < now);
       }
 
-      return data;
+      return prisma.subscription.findMany({
+        where: {
+          userId: id,
+        },
+      });
     }),
     getSubscriptionById: authenticated((_, { id }) => {
-      return data.find((item) => item.id === +id);
+      return subscriptions.find((item) => item.id === +id);
     }),
-    getUsers: authenticated(authorized('ADMIN', (_, { input }) => {
-      return users;
+    getUsers: authenticated(authorized('ADMIN', (_, { input }, { prisma }) => {
+      return prisma.user.findMany();
     })), // only available for ADMIN
     getUserById: authenticated((_, { id }) => {
       return users.find((user) => user.id === +id);
     }),
   },
   Mutation: {
-    addSubscription: authenticated((_, { input }) => {
-      return {
-        ...input.subscription,
-        id: nanoid(),
-        createdAt: now,
-      };
+    addSubscription: authenticated((_, { input }, { prisma }) => {
+      return prisma.subscription.create({
+        data: {
+          ...input.subscription,
+          startDate: new Date(input.subscription.startDate).toISOString(),
+          createdAt: new Date().toISOString(),
+        }
+      });
     }),
     editSubscription: authenticated((_, { input }) => {
-      const subscription = data.find((item) => item.id === +input.id);
+      const subscription = subscriptions.find((item) => item.id === +input.id);
       return {
         ...subscription,
         ...input.subscription,
       };
     }),
     deleteSubscription: authenticated((_, { input }) => {
-      return data.filter((item) => item.id !== +input.id);
+      return subscriptions.filter((item) => item.id !== +input.id);
     }),
-    signup(_, { input: { email, password, role = 'MEMBER' } }, { createToken }) {
-      const isExistingUser = users.find(mockUser => mockUser.email === email);
+    async signup(_, { input: { email, password } }, { createToken, prisma }) {
+      const isExistingUser = await prisma.user.findUnique({
+        where: {
+          email,
+        }
+      });
 
       if (isExistingUser) {
         throw new Error('User already exists');
@@ -67,26 +76,37 @@ const resolvers = {
 
       const username = email.substring(0, email.indexOf('@'));
 
-      const user = ({ email, password, id: nanoid(), username, role });
+      const user = prisma.user.create({
+        data: {
+          email,
+          username,
+          role: 'GUEST',
+          password,
+        },
+      });
       const token = createToken(user);
 
       return { token, user };
     },
-    login(_, { input }, { createToken }) {
-      const user = users.find(mockUser => mockUser.email === input.email && mockUser.password === input.password);
+    async login(_, { input: { email, password }}, { createToken, prisma }) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        }
+      })
 
-      if (!user) {
+      if (!user || (user && user.password !== password)) {
         throw new AuthenticationError('Incorrect login details');
       }
 
       const token = createToken(user);
       
       return { token, user };
-    }
+    },
   },
   User: {
     subscriptions(user) {
-      return data.filter((item) => item.user === +user.id);
+      return subscriptions.filter((item) => item.user === +user.id);
     },
   },
   Subscription: {

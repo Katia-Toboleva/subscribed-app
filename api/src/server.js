@@ -2,15 +2,17 @@ import { ApolloServer } from 'apollo-server';
 import typeDefs from './schema.js';
 import resolvers from './resolvers.js';
 import { createToken, getUserFromToken } from './auth.js';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context({ req }) {
-    // return db; // models and db will be passed here
+  context({ req, res }) {
     const token = req.headers.authorization;
     const user = getUserFromToken(token);
-    return { user, createToken };
+    return { prisma, user, createToken };
   },
 });
 
