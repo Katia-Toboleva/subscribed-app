@@ -82,6 +82,7 @@ const typeDefs = gql`
   input SignupInput {
     email: String!
     password: String!
+    role: Role
   }
 
   input LoginInput {

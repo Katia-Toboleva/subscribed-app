@@ -63,7 +63,7 @@ const resolvers = {
     deleteSubscription: authenticated((_, { input }) => {
       return subscriptions.filter((item) => item.id !== +input.id);
     }),
-    async signup(_, { input: { email, password } }, { createToken, prisma }) {
+    async signup(_, { input: { email, password, role } }, { createToken, prisma }) {
       const isExistingUser = await prisma.user.findUnique({
         where: {
           email,
@@ -80,7 +80,7 @@ const resolvers = {
         data: {
           email,
           username,
-          role: 'GUEST',
+          role: role || 'GUEST',
           password,
         },
       });

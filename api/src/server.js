@@ -9,9 +9,9 @@ const prisma = new PrismaClient();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context({ req, res }) {
+  async context({ req, res }) {
     const token = req.headers.authorization;
-    const user = getUserFromToken(token);
+    const user = await getUserFromToken(token, prisma);
     return { prisma, user, createToken };
   },
 });
