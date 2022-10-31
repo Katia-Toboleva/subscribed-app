@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures=["createMany"]
 }
 
 datasource db {
@@ -15,7 +16,7 @@ model User {
   title         String?
   email         String          @unique @db.VarChar(255)
   password      String
-  phoneNumber   Int?
+  phoneNumber   String?
   profileImage  String?
   subscriptions Subscription[]  
   role          Role            @default(MEMBER)

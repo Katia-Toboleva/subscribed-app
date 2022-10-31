@@ -7,11 +7,12 @@
     "server": "nodemon src/server.js",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:studio": "npx prisma studio",
-    "prisma:csv": "ts-node-esm -T scripts/export-report.ts"
-
+    "prisma:csv": "ts-node-esm -T scripts/export-report.ts",
+    "prisma:seed": "npx prisma db seed"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
+    "@prisma/client": "^4.5.0",
     "apollo-link-http": "^1.5.16",
     "apollo-server": "^2.9.6",
     "graphql": "^14.5.8",
@@ -21,10 +22,12 @@
     "nanoid": "^4.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "nodemon": "^2.0.20",
-    "prisma": "^4.5.0"
+    "prisma": "^4.5.0",
+    "ts-node": "^10.9.1"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.js"
   }
 }
