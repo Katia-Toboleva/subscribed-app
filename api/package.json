@@ -1,10 +1,9 @@
 {
   "name": "subscribed-api",
-  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "server": "nodemon src/server.js",
+    "server": "nodemon -x node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm src/server.ts",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:studio": "npx prisma studio",
     "prisma:csv": "ts-node-esm -T scripts/export-report.ts",
@@ -28,6 +27,6 @@
     "ts-node": "^10.9.1"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.js"
+    "seed": "ts-node prisma/seed.ts"
   }
 }

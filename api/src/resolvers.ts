@@ -1,7 +1,7 @@
 import { AuthenticationError } from 'apollo-server';
-import { mockSubscriptions, mockUsers } from './mocks/mockData.js';
+import { mockSubscriptions, mockUsers } from './mocks/mockData';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
-import { authenticated, authorized } from './auth.js';
+import { authenticated, authorized } from './auth';
 
 const subscriptions = [...mockSubscriptions];
 const users = [...mockUsers];
@@ -95,7 +95,7 @@ const resolvers = {
         }
       })
 
-      if (!user || (user && user.password !== password)) {
+      if (!user || user.password && user.password !== password) {
         throw new AuthenticationError('Incorrect login details');
       }
 

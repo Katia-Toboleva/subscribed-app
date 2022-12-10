@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server';
-import typeDefs from './schema.js';
-import resolvers from './resolvers.js';
-import { createToken, getUserFromToken } from './auth.js';
+import typeDefs from './schema';
+import resolvers from './resolvers';
+import { createToken, getUserFromToken } from './auth';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();

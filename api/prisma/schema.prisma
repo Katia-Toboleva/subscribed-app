@@ -21,7 +21,7 @@ model User {
   subscriptions Subscription[]  
   role          Role            @default(MEMBER)
 
-  @@map("user")
+  @@map("users")
 }
 
   model Subscription {
@@ -41,7 +41,7 @@ model User {
     user             User               @relation(fields: [userId], references: [id])
     userId           Int
 
-    @@map("subscription")
+    @@map("subscriptions")
   }
 
   enum Role {
