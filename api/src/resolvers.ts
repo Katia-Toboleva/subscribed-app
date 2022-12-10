@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import { mockSubscriptions, mockUsers } from './mocks/mockData';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
 import { authenticated, authorized } from './auth';
@@ -34,13 +34,13 @@ const resolvers = {
       });
     }),
     getSubscriptionById: authenticated((_, { id }) => {
-      return subscriptions.find((item) => item.id === +id);
+      return subscriptions.find((item) => item.id === Number(id));
     }),
     getUsers: authenticated(authorized('ADMIN', (_, { input }, { prisma }) => {
       return prisma.user.findMany();
     })), // only available for ADMIN
     getUserById: authenticated((_, { id }) => {
-      return users.find((user) => user.id === +id);
+      return users.find((user) => user.id === Number(id));
     }),
   },
   Mutation: {
@@ -54,14 +54,14 @@ const resolvers = {
       });
     }),
     editSubscription: authenticated((_, { input }) => {
-      const subscription = subscriptions.find((item) => item.id === +input.id);
+      const subscription = subscriptions.find((item) => item.id === Number(input.id));
       return {
         ...subscription,
         ...input.subscription,
       };
     }),
     deleteSubscription: authenticated((_, { input }) => {
-      return subscriptions.filter((item) => item.id !== +input.id);
+      return subscriptions.filter((item) => item.id !== Number(input.id));
     }),
     async signup(_, { input: { email, password, role } }, { createToken, prisma }) {
       const isExistingUser = await prisma.user.findUnique({
@@ -71,7 +71,7 @@ const resolvers = {
       });
 
       if (isExistingUser) {
-        throw new Error('User already exists');
+        throw new ForbiddenError('User already exists');
       }
 
       const username = email.substring(0, email.indexOf('@'));
@@ -89,29 +89,35 @@ const resolvers = {
       return { token, user };
     },
     async login(_, { input: { email, password }}, { createToken, prisma }) {
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findFirst({
         where: {
-          email,
-        }
+          email: {
+            equals: email,
+          },
+          password: {
+            equals: password,
+          },
+        },
       })
 
-      if (!user || user.password && user.password !== password) {
+      if (!user) {
         throw new AuthenticationError('Incorrect login details');
       }
 
       const token = createToken(user);
       
-      return { token, user };
+      return { token, user };   
+
     },
   },
   User: {
     subscriptions(user) {
-      return subscriptions.filter((item) => item.user === +user.id);
+      return subscriptions.filter((item) => item.user === Number(user.id));
     },
   },
   Subscription: {
     user(subscription) {
-      return users.find((item) => item.id === +subscription.user);
+      return users.find((item) => item.id === Number(subscription.user));
     },
   },
 };
