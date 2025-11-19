@@ -1,4 +1,5 @@
 import { AuthenticationError, ForbiddenError } from 'apollo-server';
+import { ApolloError } from 'apollo-server-errors';
 import { mockSubscriptions, mockUsers } from './mocks/mockData';
 import { TimestampResolver, PhoneNumberResolver, CurrencyResolver, NonNegativeIntResolver } from 'graphql-scalars';
 import { authenticated, authorized } from './auth';
@@ -101,7 +102,9 @@ const resolvers = {
       })
 
       if (!user) {
-        throw new AuthenticationError('Incorrect login details');
+        // throw new AuthenticationError('Incorrect login details');
+        throw new ApolloError('My new error message', 'MY_NEW_ERROR_CODE');
+
       }
 
       const token = createToken(user);

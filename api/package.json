@@ -14,6 +14,7 @@
     "@prisma/client": "^4.5.0",
     "apollo-link-http": "^1.5.16",
     "apollo-server": "^2.9.6",
+    "apollo-server-errors": "^3.3.1",
     "graphql": "^14.5.8",
     "graphql-scalars": "^1.17.0",
     "graphql-tag": "^2.10.1",
