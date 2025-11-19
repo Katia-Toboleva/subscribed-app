@@ -1,14 +1,18 @@
 import jwt from 'jsonwebtoken';
-import { mockUsers } from './mocks/mockData.js';
 
 const secret = 'mysecret';
 
 const createToken = ({ id, role }) => jwt.sign({ id, role }, secret);
 
-const getUserFromToken = token => {
+const getUserFromToken = async (token, prisma) => {
   try {
-    const user = jwt.verify(token, secret);
-    return mockUsers.find(mockUser => mockUser.id === user.id);
+    const userFromToken = jwt.verify(token, secret);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userFromToken.id,
+      }
+    });
+    return user;
   } catch (e) {
     return null;
   }
@@ -34,7 +38,7 @@ const authenticated = next => (root, args, context, info) => {
  * @param {String} role enum role to check for
  * @param {Function} next next resolver function to run
  */
- const authorized = (role, next) => (root, args, context, info) => {
+ const authorized = (role, next) => async (root, args, context, info) => {
   if (context.user.role !== role ) {
     throw new Error(`incorrect privilegies, must be ${role} role`);
   }
